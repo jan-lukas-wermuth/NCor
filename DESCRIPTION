@@ -1,6 +1,6 @@
 Package: NCor
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: A Proper Correlation Coefficient for Nominal Random Variables
+Version: 0.0.1
 Imports:
     Rdpack,
     arrangements,
@@ -9,12 +9,11 @@ Imports:
     foreach,
     magrittr,
     class
-RdMacros:
-    Rdpack
+RdMacros: Rdpack
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Jan-Lukas", "Wermuth", email = "wermuth@econ.uni-frankfurt.de", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: This package calculates a proper correlation coefficient for nominal random variables together with a confidence interval and a p-value corresponding to the respective independence test.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
