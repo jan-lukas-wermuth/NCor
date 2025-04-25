@@ -41,6 +41,3 @@ colnames(tab) <- c("Afghanistan", "Somalia", "Iran")
 rownames(tab) <- c("Islam", "Judaism", "Christianity")
 NCor(tab)
 }
-\references{
-\insertRef{Goodman1954}{NCor}
-}

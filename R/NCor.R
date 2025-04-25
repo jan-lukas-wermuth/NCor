@@ -1,6 +1,6 @@
 #' Wermuth's Correlation
 #'
-#' `NCor()` computes proper correlation coefficients for nominal random variables together with optional confidence intervals and independence tests.
+#' `NCor()` computes a proper correlation coefficient for nominal random variables together with an optional confidence interval and a p-value for the independence test.
 #'
 #' @param X an n x 1 character vector or a contingency table with at least one nominal random variable.
 #' @param Y NULL (default) or a n x 1 character or numeric vector.
@@ -10,7 +10,7 @@
 #' @param CIs Boolean variable determining whether confidence intervals shall be reported or not.
 #' @param Test Boolean variable determining whether the P-value for the null hypothesis of independence between X and Y shall be reported or not.
 #'
-#' @return The value of the coefficient.
+#' @return The value of the coefficient, its confidence interval and the p-value for the independence test.
 #' @import Rdpack
 #' @import foreach
 #' @import rstatix
@@ -20,7 +20,6 @@
 #' @import class
 #' @export
 #'
-#' @references \insertRef{Goodman1954}{NCor}
 #'
 #' @examples
 #' tab <- matrix(c(38, 0, 75, 16, 0, 43, 86, 84, 60), ncol = 3)
@@ -37,7 +36,7 @@ NCor <- function(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", CIs = FAL
   }
   n <- sum(ContTable)
   # Start cluster for parallel computing
-  cl <- parallel::makeCluster(parallel::detectCores() - 1, type = "PSOCK")
+  cl <- parallel::makeCluster(detectCores() - 1, type = "PSOCK")
   doParallel::registerDoParallel(cl)
   on.exit(parallel::stopCluster(cl)) # Need to stop the parallel computing
 
