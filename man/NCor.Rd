@@ -4,15 +4,7 @@
 \alias{NCor}
 \title{Wermuth's Correlation}
 \usage{
-NCor(
-  X,
-  Y = NULL,
-  alpha = 0.1,
-  digits = 5,
-  nominal = "rc",
-  CIs = FALSE,
-  Test = TRUE
-)
+NCor(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", method = "gamma")
 }
 \arguments{
 \item{X}{an n x 1 character vector or a contingency table with at least one nominal random variable.}
@@ -23,11 +15,9 @@ NCor(
 
 \item{digits}{only applicable if a contingency table of probabilities is supplied. Each probability gets multiplied by 10^digits to obtain an artificial sample/population size.}
 
-\item{nominal}{determines whether the rows ("r") or the rows and the columns ("rc") of the resulting contingency table should be treated as nominal. If X and Y are supplied separately, X refers to the rows and Y to the columns.}
+\item{nominal}{determines whether the rows ("r"), the columns ("c") or the rows and the columns ("rc") of the resulting contingency table should be treated as nominal. If X and Y are supplied separately, X refers to the rows and Y to the columns.}
 
-\item{CIs}{Boolean variable determining whether confidence intervals shall be reported or not.}
-
-\item{Test}{Boolean variable determining whether the P-value for the null hypothesis of independence between X and Y shall be reported or not.}
+\item{method}{determines the coefficient to be used. Default is Goodman-Kruskal's gamma \insertCite{Goodman1954}{NCor}.}
 }
 \value{
 The value of the coefficient.
@@ -40,4 +30,7 @@ tab <- matrix(c(38, 0, 75, 16, 0, 43, 86, 84, 60), ncol = 3)
 colnames(tab) <- c("Afghanistan", "Somalia", "Iran")
 rownames(tab) <- c("Islam", "Judaism", "Christianity")
 NCor(tab)
+}
+\references{
+\insertRef{Goodman1954}{NCor}
 }
