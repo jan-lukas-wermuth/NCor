@@ -2,6 +2,7 @@
 
 export("%>%")
 export(NCor)
+import(RCor)
 import(Rdpack)
 import(arrangements)
 import(class)

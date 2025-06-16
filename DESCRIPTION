@@ -1,5 +1,5 @@
 Package: NCor
-Title: What the Package Does (One Line, Title Case)
+Title: Proper Correlation Coefficient for Nominal Random Variables
 Version: 0.0.0.9000
 Imports:
     Rdpack,
@@ -8,14 +8,15 @@ Imports:
     rstatix,
     foreach,
     magrittr,
-    class
+    class,
+    RCor
 RdMacros:
     Rdpack
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Jan-Lukas", "Wermuth", , "wermuth@econ.uni-frankfurt.de", role = c("aut", "cre"))
+Description: An estimator for a proper correlation coefficient for nominal random variables together with confidence intervals and an associated independence test.
 License: MIT + file LICENSE
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1

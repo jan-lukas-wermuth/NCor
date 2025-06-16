@@ -2,28 +2,38 @@
 % Please edit documentation in R/NCor.R
 \name{NCor}
 \alias{NCor}
-\title{Wermuth's Correlation}
+\title{Proper Correlations for Nominal Random Variables \insertCite{wermuth2025nominal}{NCor}}
 \usage{
-NCor(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", method = "gamma")
+NCor(
+  X,
+  Y = NULL,
+  alpha = 0.1,
+  digits = 5,
+  nominal = "rc",
+  CIs = FALSE,
+  Test = TRUE
+)
 }
 \arguments{
 \item{X}{an n x 1 character vector or a contingency table with at least one nominal random variable.}
 
 \item{Y}{NULL (default) or a n x 1 character or numeric vector.}
 
-\item{alpha}{confidence level for the returned confidence interval. FALSE yields the coefficient without confidence intervals.}
+\item{alpha}{a numeric value specifying the significance level. The confidence level will be 1 - alpha.}
 
 \item{digits}{only applicable if a contingency table of probabilities is supplied. Each probability gets multiplied by 10^digits to obtain an artificial sample/population size.}
 
-\item{nominal}{determines whether the rows ("r"), the columns ("c") or the rows and the columns ("rc") of the resulting contingency table should be treated as nominal. If X and Y are supplied separately, X refers to the rows and Y to the columns.}
+\item{nominal}{determines whether the rows ("r") or the rows and the columns ("rc") of the resulting contingency table should be treated as nominal. If X and Y are supplied separately, X refers to the rows and Y to the columns.}
 
-\item{method}{determines the coefficient to be used. Default is Goodman-Kruskal's gamma \insertCite{Goodman1954}{NCor}.}
+\item{CIs}{Boolean variable determining whether confidence intervals shall be reported or not.}
+
+\item{Test}{Boolean variable determining whether the p-value for the null hypothesis of independence between X and Y shall be reported or not.}
 }
 \value{
-The value of the coefficient.
+The value of the coefficient, its confidence interval and the p-value for the independence test.
 }
 \description{
-\code{NCor()} computes proper correlation coefficients for nominal random variables together with optional confidence intervals and independence tests.
+\code{NCor()} computes Goodman-Kruskal's gamma \insertCite{Goodman1954}{NCor} for nominal random variables together with an optional confidence interval and a p-value for the independence test.
 }
 \examples{
 tab <- matrix(c(38, 0, 75, 16, 0, 43, 86, 84, 60), ncol = 3)
@@ -32,5 +42,8 @@ rownames(tab) <- c("Islam", "Judaism", "Christianity")
 NCor(tab)
 }
 \references{
-\insertRef{Goodman1954}{NCor}
+\itemize{
+\item \insertRef{Goodman1954}{NCor}
+\item \insertRef{wermuth2025nominal}{NCor}
+}
 }
