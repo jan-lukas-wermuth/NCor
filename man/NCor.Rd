@@ -11,7 +11,7 @@ NCor(
   digits = 5,
   nominal = "rc",
   CIs = FALSE,
-  Test = TRUE
+  Test = FALSE
 )
 }
 \arguments{

@@ -30,7 +30,7 @@
 #' colnames(tab) <- c("Afghanistan", "Somalia", "Iran")
 #' rownames(tab) <- c("Islam", "Judaism", "Christianity")
 #' NCor(tab)
-NCor <- function(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", CIs = FALSE, Test = TRUE){
+NCor <- function(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", CIs = FALSE, Test = FALSE){
   if (is.null(Y)){
     ContTable <- X
   } else ContTable <- table(X, Y)
@@ -39,12 +39,12 @@ NCor <- function(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", CIs = FAL
     ContTable <- 10 ^ digits * ContTable
   }
   n <- sum(ContTable)
-  # Start cluster for parallel computing
-  cl <- parallel::makeCluster(parallel::detectCores() - 1, type = "PSOCK")
-  doParallel::registerDoParallel(cl)
-  on.exit(parallel::stopCluster(cl)) # Need to stop the parallel computing
 
   if (nominal == "r"){ # case 1: Rows are nominal
+    # Start cluster for parallel computing
+    cl <- parallel::makeCluster(parallel::detectCores() - 1, type = "PSOCK")
+    doParallel::registerDoParallel(cl)
+    on.exit(parallel::stopCluster(cl)) # Need to stop the parallel computing
     dim_r <- nrow(ContTable)
     rows <- factorial(dim_r)
     results <- foreach::foreach(iperm_r = arrangements::ipermutations(dim_r, dim_r), i = 1:rows, .combine = 'c') %dopar% {
@@ -163,15 +163,21 @@ NCor <- function(X, Y = NULL, alpha = 0.1, digits = 5, nominal = "rc", CIs = FAL
     dim_c <- ncol(ContTable)
     cols <- factorial(dim_c)
     rows <- factorial(dim_r)
-    iperm_r <- arrangements::ipermutations(dim_r, dim_r)
+    iperm_r <- arrangements::ipermutations(dim_r, dim_r)$collect()
+    iperm_c <- arrangements::ipermutations(dim_c, dim_c)$collect()
     results <- matrix(NA, nrow = rows, ncol = cols)
     for (i in 1:rows) {
-      rownames(ContTable) <- iperm_r$getnext()
-      results[i,] <- foreach(iperm_c = arrangements::ipermutations(dim_c, dim_c), i = 1:cols, .combine = 'c') %dopar% {
-        colnames(ContTable) <- iperm_c
-        cases <- rstatix::counts_to_cases(ContTable)
-        gamma_info <- DescTools:::.DoCount(as.numeric(as.vector.factor(cases[,1])), as.numeric(as.vector.factor(cases[,2])))
-        (gamma_info$C - gamma_info$D) / (gamma_info$C + gamma_info$D)
+      for (j in 1:cols) {
+        rownames(ContTable) <- iperm_r[i,]
+        colnames(ContTable) <- iperm_c[j,]
+        ContTable_2 <- ContTable[order(as.integer(rownames(ContTable))),order(as.integer(colnames(ContTable))),drop = FALSE] / n
+        A1 <- sign(row(diag(dim_r)) - col(diag(dim_r)))
+        B1 <- sign(row(diag(dim_c)) - col(diag(dim_c)))
+        A2 <- 1 - diag(dim_r)
+        B2 <- 1 - diag(dim_c)
+        Q <- sum(ContTable_2 * (A1 %*% ContTable_2 %*% t(B1)))   # = trace(t(H2) %*% A %*% H1 %*% t(B))
+        N <- sum(ContTable_2 * (A2 %*% ContTable_2 %*% t(B2)))
+        results[i,j] <- Q/N
       }
     }
     if (isTRUE(Test)){
