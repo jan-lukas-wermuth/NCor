@@ -1,22 +1,29 @@
 Package: NCor
 Title: Proper Correlation Coefficient for Nominal Random Variables
 Version: 0.0.0.9000
+Authors@R:
+    person("Jan-Lukas", "Wermuth", , "wermuth@econ.uni-frankfurt.de", role = c("aut", "cre"))
+Description: An estimator for a proper correlation coefficient for nominal
+    random variables together with confidence intervals and an associated
+    independence test.
+License: MIT + file LICENSE
 Imports:
-    Rdpack,
-    arrangements,
-    doParallel,
-    rstatix,
-    foreach,
+    Rcpp,
+    RcppParallel,
+    RcppArmadillo,
     magrittr,
-    class,
-    RCor
+    parallel,
+    RCor,
+    Rdpack,
+    rstatix
+LinkingTo:
+    Rcpp,
+    RcppArmadillo,
+    RcppParallel
 RdMacros:
     Rdpack
-Authors@R: 
-    person("Jan-Lukas", "Wermuth", , "wermuth@econ.uni-frankfurt.de", role = c("aut", "cre"))
-Description: An estimator for a proper correlation coefficient for nominal random variables together with confidence intervals and an associated independence test.
-License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+SystemRequirements: C++11

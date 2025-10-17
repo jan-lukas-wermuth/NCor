@@ -1,3 +1,10 @@
 ^NCor\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^\.DS_Store$
+^README\.Rmd$
+^README_files$
+^\.vscode$
+^\.idea$
+^\.git$
+^\.gitignore$
